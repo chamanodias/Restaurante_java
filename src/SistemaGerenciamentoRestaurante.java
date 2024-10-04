@@ -2,8 +2,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class SistemaGerenciamentoRestaurante {
-    private static HashMap<String, Integer> popularidadeItens = new HashMap<>(); // Qual item do menu é mais procurado
-    private static HashMap<String, Integer> popularidadeBebidas = new HashMap<>(); // Qual bebida é mais procurada
+    private static HashMap<String, Integer> popularidadeItens = new HashMap<>(); 
+    private static HashMap<String, Integer> popularidadeBebidas = new HashMap<>(); 
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -40,7 +40,6 @@ public class SistemaGerenciamentoRestaurante {
             total += precoItem * quantidadeItem;
             popularidadeItens.put(nomeItem, popularidadeItens.getOrDefault(nomeItem, 0) + quantidadeItem);
 
-            // Pergunta se deseja adicionar bebidas
             System.out.print("\nDeseja adicionar alguma bebida ao pedido? (s/n): ");
             String respostaBebida = scanner.nextLine();
             if (respostaBebida.equalsIgnoreCase("s")) {
@@ -63,6 +62,11 @@ public class SistemaGerenciamentoRestaurante {
                     System.out.println("A bebida será servida sem gelo.");
                 }
 
+                System.out.print("Quantos copos você gostaria? ");
+                int quantidadeCopos = scanner.nextInt();
+                scanner.nextLine();
+                System.out.println(quantidadeCopos + " copos serão fornecidos junto com a bebida.");
+
                 total += precoBebida * quantidadeBebida;
                 popularidadeBebidas.put(nomeBebida, popularidadeBebidas.getOrDefault(nomeBebida, 0) + quantidadeBebida);
             }
@@ -80,14 +84,13 @@ public class SistemaGerenciamentoRestaurante {
         System.out.println("===================================");
         System.out.println("Total a pagar: R$" + String.format("%.2f", total));
 
-        // Exibe o item mais popular
+    
         String itemMaisPopular = popularidadeItens.entrySet().stream()
             .max((entry1, entry2) -> entry1.getValue() - entry2.getValue())
             .get()
             .getKey();
         System.out.println("O item mais popular até o momento foi: " + itemMaisPopular);
 
-        // Exibe a bebida mais popular (se houver)
         if (!popularidadeBebidas.isEmpty()) {
             String bebidaMaisPopular = popularidadeBebidas.entrySet().stream()
                 .max((entry1, entry2) -> entry1.getValue() - entry2.getValue())
